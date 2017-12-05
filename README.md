@@ -1,6 +1,6 @@
-### one - MC2A project
+# one - MC2A project
 
-# Team members
+## Team members
 -ELGHAZI Redouane
 -MAHMOUD--LAMY Pierre
 -PREBET Enguerrand
