@@ -17,10 +17,10 @@ public:
     const vector<double>& get_state();
     void error_rate(int& p, int& q);
 private:
+    int n;
+    vector<double> state;
     vector<pair<vector<double>, int> > points;
     double beta;
-    vector<double> state;
-    int n;
 };
 
 #endif // MCMC_HPP_INCLUDED

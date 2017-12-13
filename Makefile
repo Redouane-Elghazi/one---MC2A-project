@@ -1,8 +1,8 @@
-PROG		= main
-PRODNAME	= mcmc
+PROG		= mcmc
+PRODNAME	= poulpe
 CXX			= g++
 CXXFLAGS	= -Wall -O3 -std=c++11
-LIBRARY		= model
+LIBRARY		= mcmc
 
 OBJECTS		= $(LIBRARY:=.o) $(PROG:=.o)
 
@@ -11,7 +11,7 @@ default : $(OBJECTS)
 	
 	
 cleanall : clean
-	rm -f $(PRODNAME) $(TASKCREATORS)
+	rm -f $(PRODNAME)
 
 clean :
-	rm -f $(OBJECTS) $(PROG:=.o) $(TASKCREATORS:=.o)
+	rm -f $(OBJECTS) $(PROG:=.o)

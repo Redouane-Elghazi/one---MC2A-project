@@ -33,7 +33,7 @@ void MCMC::next_state(default_random_engine& g){
     double label;
     for(auto& point:points){
         label = inner_product(state.begin(), state.end(),
-                              point.first.begin(), 0);
+                              point.first.begin(), 0.);
         E1+=(point.second-sgn(label))*(point.second-sgn(label));
         label = label - 2*state[i]*point.first[i];
         E2+=(point.second-sgn(label))*(point.second-sgn(label));
@@ -41,17 +41,16 @@ void MCMC::next_state(default_random_engine& g){
     E1 = E1/2;
     E2 = E2/2;
     double p = min(1., exp(-beta*(E2-E1)));
-    //cerr << coin << " " << p << endl;
     if(coin<=p)
         state[i]=-state[i];
 }
 
 void MCMC::advance_state(int t, default_random_engine& g){
-    for(int i = 0; i<t; ++i){
+    int p,q;
+    error_rate(p,q);
+    for(int i = 0; i<t and p!=0; ++i){
         next_state(g);
-        /*int p,q;
         error_rate(p,q);
-        cout << p << "/" << q << endl;*/
     }
 }
 
@@ -65,21 +64,24 @@ void MCMC::error_rate(int& p, int& q){
     double label;
     for(auto& point:points){
         label = inner_product(state.begin(), state.end(),
-                              point.first.begin(), 0);
+                              point.first.begin(), 0.);
         if(sgn(label) != point.second)
             ++p;
     }
 }
 
 int main(){
-    int n = 100, m = 500;
+    int n = 100, m = 1000;
+    double beta = 1;
     default_random_engine g;
-    g.seed(42);
+    g.seed(0);
     vector<pair<vector<double>, int> > points;
-    vector<double> real_model(n);
+    vector<double> real_model(n), start(n);
     uniform_int_distribution<int> b_unif(0, 1);
-    for(int i = 0; i<n; ++i)
+    for(int i = 0; i<n; ++i){
         real_model[i] = 2*b_unif(g)-1;
+        start[i] = -real_model[i];
+    }
     normal_distribution<double> norm(0, 1);
     for(int j = 0; j<m; ++j){
         vector<double> p(n);
@@ -87,20 +89,25 @@ int main(){
             p[i] = norm(g);
         }
         double label = inner_product(real_model.begin(), real_model.end(),
-                                     p.begin(), 0);
+                                     p.begin(), 0.);
         points.emplace_back(p, sgn(label));
     }
-    MCMC test(n, points, 1, g);
+    MCMC test(n, points, beta, g);
+//    MCMC test(start, points, beta);
     cout << "original is:" << endl;
     for(double x:real_model)
         cout << x << " ";
     cout << endl;
     int p,q;
+    cout << "starting vector is:" << endl;
+    for(double x:test.get_state())
+        cout << x << " ";
+    cout << endl;
     test.error_rate(p,q);
     cout << p << "/" << q << endl;
 
-    test.advance_state(100, g);
-    cout << "found is:" << endl;
+    test.advance_state(1000, g);
+    cout << "found vector is:" << endl;
     for(double x:test.get_state())
         cout << x << " ";
     cout << endl;
