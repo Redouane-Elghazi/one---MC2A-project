@@ -47,10 +47,15 @@ void MCMC::next_state(default_random_engine& g){
 
 void MCMC::advance_state(int t, default_random_engine& g){
     int p,q;
-    error_rate(p,q);
-    for(int i = 0; i<t and p!=0; ++i){
+    for(int i = 0; i<t; ++i){
+        if(i%(t/100)==0){
+            error_rate(p,q);
+            cerr << i/(t/100) << "% of the execution: " ;
+            cerr << 100.*p/q << "% error rate" << endl;
+            if(p==0)
+                break;
+        }
         next_state(g);
-        error_rate(p,q);
     }
 }
 
@@ -71,7 +76,7 @@ void MCMC::error_rate(int& p, int& q){
 }
 
 int main(){
-    int n = 100, m = 1000;
+    int n = 100, m = 1000, T = 1000;
     double beta = 1;
     default_random_engine g;
     g.seed(0);
@@ -92,8 +97,8 @@ int main(){
                                      p.begin(), 0.);
         points.emplace_back(p, sgn(label));
     }
-    MCMC test(n, points, beta, g);
-//    MCMC test(start, points, beta);
+//    MCMC test(n, points, beta, g);
+    MCMC test(start, points, beta);
     cout << "original is:" << endl;
     for(double x:real_model)
         cout << x << " ";
@@ -106,7 +111,7 @@ int main(){
     test.error_rate(p,q);
     cout << p << "/" << q << endl;
 
-    test.advance_state(1000, g);
+    test.advance_state(T, g);
     cout << "found vector is:" << endl;
     for(double x:test.get_state())
         cout << x << " ";
