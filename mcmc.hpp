@@ -4,16 +4,18 @@
 #include <vector>
 #include <ctime>
 #include <random>
+#include <climits>
+#include "toolbox.hpp"
 using namespace std; //To remove at the end
 
 class MCMC{
 public:
-    MCMC(vector<double>& s, vector<pair<vector<double>, int> >& p,
+    MCMC(const vector<double>& s, const vector<pair<vector<double>, int> >& p,
          double b);
-    MCMC(int dim, vector<pair<vector<double>, int> >& p,
+    MCMC(int dim, const vector<pair<vector<double>, int> >& p,
          double b, default_random_engine& g);
     void next_state(default_random_engine& g);
-    void advance_state(int t, default_random_engine& g);
+    void advance_state(int t, default_random_engine& g, int pace = INT_MAX, double delta = 0);
     const vector<double>& get_state();
     void error_rate(int& p, int& q);
 private:
