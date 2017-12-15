@@ -33,20 +33,23 @@ double MCMC::next_state(default_random_engine& g){
     double E1 = 0, E2 = 0;
     double label;
     int m = points.size();
-    for(int i = 0; i<m; ++i){
-        label = labels[i];
-        E1+=(points[i].second-sgn(label))*(points[i].second-sgn(label));
-        label = label - 2*state[i]*points[i].first[i];
-        E2+=(points[i].second-sgn(label))*(points[i].second-sgn(label));
+    for(int j = 0; j<m; ++j){
+        label = labels[j];
+        E1+=(points[j].second-sgn(label))*(points[j].second-sgn(label));
+        label = label - 2*state[i]*points[j].first[i];
+        E2+=(points[j].second-sgn(label))*(points[j].second-sgn(label));
     }
     E1 = E1/2;
     E2 = E2/2;
     double p = min(1., exp(-beta*(E2-E1)));
     if(coin<=p){
+		for(int j = 0; j<m; ++j){
+			labels[j] = labels[j] - 2*state[i]*points[j].first[i];
+		}
         state[i]=-state[i];
-        return E2/((double)n);
+        return E2/((double)m);
     }
-	return E1/((double)n);
+	return E1/((double)m);
 }
 
 /*void MCMC::advance_state(int t, default_random_engine& g){
@@ -91,10 +94,10 @@ void MCMC::error_rate(int& p, int& q){
     q = points.size();
     p = 0;
     double label;
-    for(auto& point:points){
-        label = inner_product(state.begin(), state.end(),
-                              point.first.begin(), 0.);
-        if(sgn(label) != point.second)
+    int m = points.size();
+    for(int j = 0; j<m; ++j){
+        label = labels[j];
+        if(sgn(label) != points[j].second)
             ++p;
     }
 }

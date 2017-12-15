@@ -43,6 +43,12 @@ int main(int argc, char* argv[]){
     instance problem(n, m, g);
     MCMC solve(out, mode_all, n, problem.get_points(), beta, g);
 
+	/*vector<double> state(problem.get_model());
+	for(auto& x:state)
+		x = -x;
+    MCMC solve(out, mode_all, state, problem.get_points(), beta);
+*/
+
     cout << "original is:" << endl;
     for(double x:problem.get_model())
         cout << x << " ";
