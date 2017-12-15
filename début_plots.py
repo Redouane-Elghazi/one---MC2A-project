@@ -1,12 +1,21 @@
+#!/usr/bin/env python3.6
+
+from math import *
+from fractions import *
+from sys import *
+from random import *
+import subprocess as sp
 import os.path
 import matplotlib.pyplot as plt
 import numpy as np
+
+sp.run("make", shell=True)
 
 def ex1_get(alpha,beta):
     # Parameters
     K=250 # number of tests
     N=1000
-    M=alpha*N
+    M=int(alpha*N)
     T=10000
     
     # File name
@@ -18,11 +27,12 @@ def ex1_get(alpha,beta):
             exit(1)
     
     # Remove file
-    run('rm '+filename, shell=True)
+    sp.run('rm '+filename, shell=True)
     
     # Add the K tests data to the file
     for _ in range(K):
-        # launch script (T=N(logN))
+        arg = filename+" 0 all "+str(N)+" "+str(M)+ " "+str(T)+ " "+str(beta)
+        sp.run("./poulpe "+arg, shell=True)
     
     # Get the vector avg_energy
     avg_energy = [0]*(T+1)
@@ -33,10 +43,6 @@ def ex1_get(alpha,beta):
         for t in range(T+1):
             e_t = float(file.readline().split()[0]) # e_t is the 1st value
             avg_energy[t] += e_t/K
-
-    # Plot E(w(t))
-    X=[i for i in range(T+1)]
-    plot(X,avg_energy)
  
 def ex1_plot(alpha,beta):
     # Parameters
@@ -45,11 +51,12 @@ def ex1_plot(alpha,beta):
     X = [i for i in range(T+1)]
     Y = ex1_get(alpha,beta)
     
+    fig = plt.figure()
     plt.plot(X,Y)
     plt.xlabel('time')
     plt.ylabel('energy')
     plt.title('Energy evolution, alpha=%f, beta=%f' % (alpha,beta))
-    plt.show()
+    fig.savefig('ex1.png')
     
     
     
@@ -71,11 +78,12 @@ def ex2_get(alpha,beta):
             exit(1)
     
     # Remove file
-    run('rm '+filename, shell=True)
+    sp.run('rm '+filename, shell=True)
     
     # Add the K tests data to the file
     for _ in range(K):
-        # launch script (T=N(logN))
+        arg = filename+" 0 end "+str(N)+" "+str(M)+ " "+str(T)+ " "+str(beta)
+        sp.run("./poulpe "+arg, shell=True)
     
     # Get the avg_energy
     avg_energy = 0
@@ -105,12 +113,14 @@ def ex2_plot(res=0.1):
             Y[i*l+j] = a_range[j]
             C[i*l+j] = ex2_get( a_range[i], a_range[j])
     
+    fig = plt.figure()
     plt.scatter(X,Y,c=C,cmap='Blues',marker='o',s=100/res)
     plt.colorbar(orientation='horizontal')
     plt.xlabel('alpha')
     plt.ylabel('beta')
     plt.title('Energy map depending on alpha,beta')
     plt.show()
+    fig.savefig('ex1.png')
     
     
     
@@ -132,11 +142,12 @@ def ex3_get(alpha,beta):
             exit(1)
     
     # Remove file
-    run('rm '+filename, shell=True)
+    sp.run('rm '+filename, shell=True)
     
     # Add the K tests data to the file
     for _ in range(K):
-        # launch script (T=N(logN))
+        arg = filename+" 0 end "+str(N)+" "+str(M)+" "+str(T)+" "+str(beta)
+        sp.run("./poulpe "+arg, shell=True)
     
     # Get the avg_energy
     avg_q = 0
@@ -146,7 +157,7 @@ def ex3_get(alpha,beta):
         q = float(file.readline().split()[1]) # q is the 2nd value
         avg_q += q/K
 
-    return avg_energy
+    return avg_q
     
 def ex3_plot(res=0.1):
     # Parameters
@@ -166,9 +177,11 @@ def ex3_plot(res=0.1):
             Y[i*l+j] = a_range[j]
             C[i*l+j] = ex3_get( a_range[i], a_range[j])
     
+    fig = plt.figure()
     plt.scatter(X,Y,c=C,cmap='Greens',marker='o',s=100/res)
     plt.colorbar(orientation='horizontal')
     plt.xlabel('alpha')
     plt.ylabel('beta')
     plt.title('Overlap map depending on alpha,beta')
     plt.show()
+    fig.savefig('ex1.png')
