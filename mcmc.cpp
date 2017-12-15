@@ -5,6 +5,11 @@ using namespace std;
 MCMC::MCMC(ofstream& f, bool mode, const vector<double>& s, const vector<pair<vector<double>, int> >& p,
            double b): out(f), mode_all(mode), state(s), points(p), beta(b){
     n = state.size();
+    for(auto& point:points){
+        double label = inner_product(state.begin(), state.end(),
+                              point.first.begin(), 0.);
+        labels.push_back(label);
+    }
 }
 
 MCMC::MCMC(ofstream& f, bool mode, int dim, const vector<pair<vector<double>, int> >& p, double b,
@@ -13,6 +18,11 @@ MCMC::MCMC(ofstream& f, bool mode, int dim, const vector<pair<vector<double>, in
     uniform_int_distribution<int> b_unif(0,1);
     for(int i = 0; i<n; ++i)
         state[i] = 2*b_unif(g)-1;
+    for(auto& point:points){
+        double label = inner_product(state.begin(), state.end(),
+                              point.first.begin(), 0.);
+        labels.push_back(label);
+    }
 }
 
 double MCMC::next_state(default_random_engine& g){
@@ -22,12 +32,12 @@ double MCMC::next_state(default_random_engine& g){
     int i = i_unif(g);
     double E1 = 0, E2 = 0;
     double label;
-    for(auto& point:points){
-        label = inner_product(state.begin(), state.end(),
-                              point.first.begin(), 0.);
-        E1+=(point.second-sgn(label))*(point.second-sgn(label));
-        label = label - 2*state[i]*point.first[i];
-        E2+=(point.second-sgn(label))*(point.second-sgn(label));
+    int m = points.size();
+    for(int i = 0; i<m; ++i){
+        label = labels[i];
+        E1+=(points[i].second-sgn(label))*(points[i].second-sgn(label));
+        label = label - 2*state[i]*points[i].first[i];
+        E2+=(points[i].second-sgn(label))*(points[i].second-sgn(label));
     }
     E1 = E1/2;
     E2 = E2/2;

@@ -25,6 +25,7 @@ private:
     int n;
     vector<double> state;
     vector<pair<vector<double>, int> > points;
+    vector<double> labels;
     double beta;
 };
 
