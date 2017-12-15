@@ -2,20 +2,20 @@
 #include "mcmc.hpp"
 using namespace std;
 
-MCMC::MCMC(const vector<double>& s, const vector<pair<vector<double>, int> >& p,
-           double b): state(s), points(p), beta(b){
+MCMC::MCMC(ofstream& f, bool mode, const vector<double>& s, const vector<pair<vector<double>, int> >& p,
+           double b): out(f), mode_all(mode), state(s), points(p), beta(b){
     n = state.size();
 }
 
-MCMC::MCMC(int dim, const vector<pair<vector<double>, int> >& p, double b,
-           default_random_engine& g): n(dim), points(p), beta(b){
+MCMC::MCMC(ofstream& f, bool mode, int dim, const vector<pair<vector<double>, int> >& p, double b,
+           default_random_engine& g): out(f), mode_all(mode), n(dim), points(p), beta(b){
     state = vector<double>(n,0);
     uniform_int_distribution<int> b_unif(0,1);
     for(int i = 0; i<n; ++i)
         state[i] = 2*b_unif(g)-1;
 }
 
-void MCMC::next_state(default_random_engine& g){
+double MCMC::next_state(default_random_engine& g){
     uniform_real_distribution<double> r_unif(0,1);
     uniform_int_distribution<int> i_unif(0,n-1);
     double coin = r_unif(g);
@@ -32,8 +32,11 @@ void MCMC::next_state(default_random_engine& g){
     E1 = E1/2;
     E2 = E2/2;
     double p = min(1., exp(-beta*(E2-E1)));
-    if(coin<=p)
+    if(coin<=p){
         state[i]=-state[i];
+        return E2/((double)n);
+    }
+	return E1/((double)n);
 }
 
 /*void MCMC::advance_state(int t, default_random_engine& g){
@@ -60,7 +63,10 @@ void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta
             if(p==0)
                 break;
         }
-        next_state(g);
+        double to_print = next_state(g);
+        if(mode_all){
+			out << to_print << endl;
+        }
         if((i+1)%pace == 0)
             beta += delta;
     }

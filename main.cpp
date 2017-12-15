@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
     default_random_engine g;
     g.seed(seed);
     instance problem(n, m, g);
-    MCMC solve(n, problem.get_points(), beta, g);
+    MCMC solve(out, mode_all, n, problem.get_points(), beta, g);
 
     cout << "original is:" << endl;
     for(double x:problem.get_model())
