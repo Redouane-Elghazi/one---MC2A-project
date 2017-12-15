@@ -56,7 +56,7 @@ void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta
         if(i%(t/100)==0){
             error_rate(p,q);
             cerr << i/(t/100) << "% of the execution: " ;
-            cerr << 100.*p/q << "% error rate" << endl;
+            cerr << 100.*p/q << "% error rate" << "    \r";
             if(p==0)
                 break;
         }
@@ -64,6 +64,7 @@ void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta
         if((i+1)%pace == 0)
             beta += delta;
     }
+    cerr << endl;
 }
 
 const vector<double>& MCMC::get_state(){
