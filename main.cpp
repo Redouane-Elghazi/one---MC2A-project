@@ -48,7 +48,7 @@ int main(int argc, char* argv[]){
 		x = -x;
     MCMC solve(out, mode_all, state, problem.get_points(), beta);
 */
-
+/*
     cout << "original is:" << endl;
     for(double x:problem.get_model())
         cout << x << " ";
@@ -61,20 +61,23 @@ int main(int argc, char* argv[]){
     cout << endl;
     solve.error_rate(p,q);
     cout << p << "/" << q << endl;
-
+*/
 	if(mode_all){
 		out << T << endl;
 	}
     solve.advance_state(T, g, pace, delta);
+/*
     cout << "found vector is:" << endl;
     for(double x:solve.get_state())
         cout << x << " ";
     cout << endl;
     solve.error_rate(p,q);
     cout << p << "/" << q << endl;
-
+*/
 	if(mode_all == false){
-			out << p << " " << inner_product(problem.get_model().begin(),problem.get_model().end(),solve.get_state().begin(),0) << endl;
+		int p,q;
+		solve.error_rate(p,q);
+		out << (double)p/q << " " << inner_product(problem.get_model().begin(),problem.get_model().end(),solve.get_state().begin(),0.)/n << endl;
 	}
     out.close();
 	return 0;

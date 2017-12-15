@@ -69,21 +69,22 @@ double MCMC::next_state(default_random_engine& g){
 void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta){
     int p,q;
     for(int i = 0; i<t; ++i){
-        if(i%(t/100)==0){
+        /*if(i%(t/100)==0){
             error_rate(p,q);
             cerr << i/(t/100) << "% of the execution: " ;
             cerr << 100.*p/q << "% error rate" << "    \r";
             if(p==0)
                 break;
-        }
-        double to_print = next_state(g);
+        }*/
+        next_state(g);
         if(mode_all){
-			out << to_print << endl;
+			error_rate(p,q);
+			out << (double)p/q << endl;
         }
         if((i+1)%pace == 0)
             beta += delta;
     }
-    cerr << endl;
+    //cerr << endl;
 }
 
 const vector<double>& MCMC::get_state(){
