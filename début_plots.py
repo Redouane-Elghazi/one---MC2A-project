@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3
 
 from math import *
 from fractions import *
@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 sp.run("make", shell=True)
+
+my_seed = 42
+seed(my_seed)
+
 
 def ex1_get(alpha,beta):
     # Parameters
@@ -31,7 +35,7 @@ def ex1_get(alpha,beta):
     
     # Add the K tests data to the file
     for _ in range(K):
-        arg = filename+" 0 all "+str(N)+" "+str(M)+ " "+str(T)+ " "+str(beta)
+        arg = filename+" "+str(randint(0,10000))+" all "+str(N)+" "+str(M)+ " "+str(T)+ " "+str(beta)
         sp.run("./poulpe "+arg, shell=True)
     
     # Get the vector avg_energy
@@ -82,7 +86,7 @@ def ex2_get(alpha,beta):
     
     # Add the K tests data to the file
     for _ in range(K):
-        arg = filename+" 0 end "+str(N)+" "+str(M)+ " "+str(T)+ " "+str(beta)
+        arg = filename+" "+str(randint(0,10000))+" end "+str(N)+" "+str(M)+ " "+str(T)+ " "+str(beta)
         sp.run("./poulpe "+arg, shell=True)
     
     # Get the avg_energy
@@ -146,7 +150,7 @@ def ex3_get(alpha,beta):
     
     # Add the K tests data to the file
     for _ in range(K):
-        arg = filename+" 0 end "+str(N)+" "+str(M)+" "+str(T)+" "+str(beta)
+        arg = filename+" "+str(randint(0,10000))+" end "+str(N)+" "+str(M)+" "+str(T)+" "+str(beta)
         sp.run("./poulpe "+arg, shell=True)
     
     # Get the avg_energy
