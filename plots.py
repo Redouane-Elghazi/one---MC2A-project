@@ -114,10 +114,9 @@ print('To modify a parameter p1, use set_p1(#new_value)')
 
 ## Main functions ##
 
-def ex1_get(alpha,beta,pace,delta):
+def ex1_create(alpha,beta,pace,delta):
     """generates K random walks with parameters alpha,beta \n
-    at every instant t, the normalized energy is stored \n
-    returns the average energy vector"""
+    at every instant t, the normalized energy is stored"""
     
     filename = seed+"/ex1_a"+str(alpha)+"_b"+str(beta)+".tmp"
     
@@ -125,6 +124,11 @@ def ex1_get(alpha,beta,pace,delta):
     for _ in range(K):
         avancement(_,K)
         call(filename,alpha,beta,'all',pace,delta)
+        
+def ex1_get(alpha,beta,pace,delta):
+    """returns the average energy vector"""
+    
+    filename = seed+"/ex1_a"+str(alpha)+"_b"+str(beta)+".tmp"
         
     # get the avg_energy vector
     avg_energy = [0]*T
@@ -161,12 +165,19 @@ def ex1_plot(pace="",delta=""):
     plt.ylabel('Energy')
     plt.ylim(0,0.6)
     
+    # create the data
     for i in range(l):
         alpha = a_range[i]
         for j in range(l):
             plot_avancement(l*i+j,l*l)
             beta = a_range[j]
-
+            ex1_create(alpha,beta,pace,delta)
+    
+    # get the data
+    for i in range(l):
+        alpha = a_range[i]
+        for j in range(l):
+            beta = a_range[j]
             Y = ex1_get(alpha,beta,pace,delta)
             axes[i,0].plot(X,Y,label='beta='+str(beta),color=c[i][j])
             axes[j,1].plot(X,Y,label='alpha='+str(alpha),color=c[i][j])
@@ -184,10 +195,9 @@ def ex1_plot(pace="",delta=""):
     print('\nEnergy evolution plots saved in '+dest_file)
     
         
-def ex2_3_get(alpha,beta,pace,delta):
+def ex2_3_create(alpha,beta,pace,delta):
     """generates K random walks with parameters alpha,beta \n
-    The final normalized energy and final overlap are stored \n
-    returns the average energy and average overlap"""
+    The final normalized energy and final overlap are stored"""
     
     filename = seed+"/ex2_a"+str(alpha)+"_b"+str(beta)+".tmp"
     
@@ -195,7 +205,13 @@ def ex2_3_get(alpha,beta,pace,delta):
     for _ in range(K):
         avancement(_,K)
         call(filename,alpha,beta,'end',pace,delta)
+     
         
+def ex2_3_get(alpha,beta,pace,delta):
+    """returns the average energy and average overlap"""  
+    
+    filename = seed+"/ex2_a"+str(alpha)+"_b"+str(beta)+".tmp"
+    
     # get the avg_energy and avg_overlap
     avg_energy = 0
     avg_overlap = 0
@@ -223,10 +239,15 @@ def ex2_3_plot(res=0.5,pace="",delta=""):
     heatmap_energy = [[0 for _ in range(l)] for _ in range(l)]
     heatmap_overlap = [[0 for _ in range(l)] for _ in range(l)]
     
-    # get the data
+    # create the data
     for i in range(l):
         for j in range(l):
             plot_avancement(i*l+j, l*l)
+            ex2_3_create(a_range[i], a_range[j],pace,delta)
+
+    # get the data
+    for i in range(l):
+        for j in range(l):
             avg_energy,avg_overlap = ex2_3_get(a_range[i], a_range[j],pace,delta)
             heatmap_energy[j][i] = avg_energy
             heatmap_overlap[j][i] = avg_overlap
