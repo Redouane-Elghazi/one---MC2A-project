@@ -84,6 +84,10 @@ void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta
         if((i+1)%pace == 0)
             beta += delta;
     }
+    if(mode_all){
+        error_rate(p,q);
+        out << (double)p/q << endl;
+    }
     //cerr << endl;
 }
 
