@@ -14,21 +14,26 @@
 \date{}
 \author{Redouane ELGHAZI \and Pierre MAHMOUD--LAMY \and Enguerrand PREBET}
 \title{Projet de MC2A : Équipe one}
+
 \begin{document}
 	\maketitle
 	\section{Introduction}
 		Le but de ce projet était d'implémenter une méthode de Monte-Carlo par chaînes de Markov appelée algorithme de Metropolis-Hastings. Cet algorithme a pour entrée un ensemble $P$ de points de $\mathbb{R}^N$ et une fonction $\emph{label}^*$ associant un label à chaque point.
 		
 		Le but de l'algorithme est de trouver une fonction $\emph{label}$ minimisant le nombre de mauvais labels. Dans le cadre de ce projet, la fonction recherchée est de la forme:
-		$$\emph{label}(x) = \text{sign}(w\cdot x)$$
-		Où $w$ est un vecteur de $\big\{0,1\big\}^N$.
-		 
-		Pour se faire, à chaque étape, un bit de $w$ est proposé à la modification, et est accepté avec un probabilité dépendant du nombre de points mal classifiés avant et après modification.
+		$$\emph{label}(\mathbf{x}) = \text{sign}(\mathbf{w}\cdot \mathbf{x})$$
+		Où $w$ est un vecteur de $\big\{{-}1,1\big\}^N$. Cet objectif est modélisé par une énergie proportionnelle au nombre de mauvais labels.
+		%Cet objectif est modélisé par l'énergie :		$$E(\mathbf{w}) = \frac{1}{2} \sum_{\mu=1}^{M} (y_\mu - \text{sign}(\mathbf{w}\cdot\mathbf{x}))$$
+		
+		Pour se faire, à chaque étape, un bit de $\mathbf{w}$ est proposé à la modification, et est accepté avec une probabilité dépendant du nombre de points mal classifiés avant et après modification. La distribution de Boltzmann est utilisée faisant intervenir l'énergie citée précédemment.
 	\section{Langage}
 		Nous avons choisi d'utiliser deux langages pour ce projet. Un exécutable en C++ exécute le cœur de l'algorithme, ainsi qu'un script en Python pour gérer les appels à cet exécutable ainsi que pour la création de graphes.
 		
 	\section{Implémentation}
-		Le programme en C++ génère $w^*$ et les $(\underline{x}_\mu)$ avant d'effectuer l'algorithme selon les paramètres données en entrée. Selon la question, il écrit dans un fichier les énergies normalisées tout au long de l'algorithme, ou bien uniquement l'énergie normalisée ainsi que le chevauchement entre le modèle original et notre réponse finale. 
+		Le programme en C++ génère $\mathbf{w}^*$ et les $(\mathbf{x}_\mu)$ avant d'effectuer l'algorithme selon les paramètres données en entrée. Selon la question, il écrit dans un fichier les énergies normalisées tout au long de l'algorithme, ou bien uniquement l'énergie normalisée ainsi que le chevauchement entre le modèle original et notre réponse finale.
+		
+		Comme au plus un bit est changé à chaque itération, il est possible de modifier le label de chaque $\mathbf{x}$ en temps $O(1)$. Cela nous permet d'effectuer une itération en $O(M)$ pour une complexité totale en $O(MT + N)$ en comptant l'initialisation.
+		
 	\section{Résultats}
 		analyse de la complexité de l'algo
 		
