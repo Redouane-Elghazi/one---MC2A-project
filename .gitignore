@@ -1,4 +1,10 @@
 *.exe
 *.o
 *.tmp
+results/*.png
+*.pdf
+*.aux
+*.log
+*.out
+*.gz
 poulpe

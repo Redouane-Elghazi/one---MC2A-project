@@ -1,4 +1,4 @@
-\documentclass[twocolumn]{report}
+\documentclass[twocolumn]{article}
 %\documentclass{article}
 \usepackage{lipsum}
 \usepackage[french]{babel}
@@ -7,6 +7,8 @@
 \usepackage{hyperref}
 \usepackage{setspace}
 \usepackage{multicol}
+\usepackage{amsfonts}
+\usepackage{amsmath}
 
 \doublespacing
 \date{}
@@ -15,7 +17,13 @@
 \begin{document}
 	\maketitle
 	\section{Introduction}
-		blah blah rappel du sujet
+		Le but de ce projet était d'implémenter une méthode de Monte-Carlo par chaînes de Markov appelée algorithme de Metropolis-Hastings. Cet algorithme a pour entrée un ensemble $P$ de points de $\mathbb{R}^N$ et une fonction $\emph{label}^*$ associant un label à chaque point.
+		
+		Le but de l'algorithme est de trouver une fonction $\emph{label}$ minimisant le nombre de mauvais labels. Dans le cadre de ce projet, la fonction recherchée est de la forme:
+		$$\emph{label}(x) = \text{sign}(w\cdot x)$$
+		Où $w$ est un vecteur de $\big\{0,1\big\}^N$.
+		 
+		Pour se faire, à chaque étape, un bit de $w$ est proposé à la modification, et est accepté avec un probabilité dépendant du nombre de points mal classifiés avant et après modification.
 	\section{Langage}
 		C++, Python
 	\section{Résultats}
@@ -24,6 +32,7 @@
 		oui des plot (q1)
 	\section{Analyse de la valeur de $\beta$}
 		oui des plot c'est cool (q2-3)
+		puis replot de la q1 avec des beta hinted
 	\section{Qu'apporte le simulated annealing}
 		encore des plot oui oui des plot
 		
