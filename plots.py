@@ -329,6 +329,7 @@ def ex_sim_create(alpha,beta,pace,delta):
 	"""generates K random walks with parameters alpha,beta \n
 	The final normalized energy and final overlap are stored"""
 	
+	filename = seed+"/ex_sim_a"+str(alpha)+"_p"+str(pace)+"_d"+str(delta)+".tmp"
 	
 	# generate the K random walks
 	for _ in range(K):
@@ -339,6 +340,7 @@ def ex_sim_create(alpha,beta,pace,delta):
 def ex_sim_get(alpha,beta,pace,delta):
 	"""returns the average energy and average overlap"""  
 	
+	filename = seed+"/ex_sim_a"+str(alpha)+"_p"+str(pace)+"_d"+str(delta)+".tmp"
 	
 	# get the avg_energy and avg_overlap
 	avg_energy = 0
@@ -417,6 +419,7 @@ def ex_sim_plot(res_p=20,res_mb=0.2,alpha=1):
 	hm_energy.set_xticklabels(pace_range[::int(-l/10)][::-1])
 	hm_energy.set_yticklabels(mb_range[::int(-l/10)][::-1])
 	
+	dest_file = res_path+'ex_sim_1_a'+str(alpha)+'-'+seed+'.png'
 	fig.savefig(dest_file)
 	print('\nEnergy heatmap saved in '+dest_file)
 	
@@ -430,6 +433,7 @@ def ex_sim_plot(res_p=20,res_mb=0.2,alpha=1):
 	hm_overlap.set_xticklabels(pace_range[::int(-l/10)][::-1])
 	hm_overlap.set_yticklabels(mb_range[::int(-l/10)][::-1])
 	
+	dest_file = res_path+'ex_sim_2_a'+str(alpha)+'-'+seed+'.png'
 	fig.savefig(dest_file)
 	print('Overlap heatmap saved in '+dest_file)
 
