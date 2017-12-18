@@ -21,11 +21,13 @@
 		
 		Le but de l'algorithme est de trouver une fonction $\emph{label}$ minimisant le nombre de mauvais labels. Dans le cadre de ce projet, la fonction recherchée est de la forme:
 		$$\emph{label}(x) = \text{sign}(w\cdot x)$$
-		Où $w$ est un vecteur de $\big\{0,1\big\}^N$.
+		Où $w$ est un vecteur de $\big\{{-1},1\big\}^N$.
 		 
 		Pour se faire, à chaque étape, un bit de $w$ est proposé à la modification, et est accepté avec un probabilité dépendant du nombre de points mal classifiés avant et après modification.
 	\section{Langage}
-		Nous avons choisi d'utiliser deux langages pour ce projet. Un exécutable en C++ exécute le cœur de l'algorithme, ainsi qu'un script en Python pour gérer les appels à cet exécutable ainsi que pour la création de graphes.
+		Nous avons choisi d'utiliser deux langages pour ce projet. L'algorithme est implémenté en \verb!C++!. Nous avons choisi ce langage pour ses performance et le contrôle que l'on peut avoir sur les opérations élémentaires.
+		
+		Nous avons ensuite testé les performances de notre exécutable à l'aide d'un script \verb!Python!. Nous avons choisi le \verb!Python! car c'est un langage de script haut niveau, qui permet aisément de générer des graphes.
 		
 	\section{Implémentation}
 		Le programme en C++ génère $w^*$ et les $(\underline{x}_\mu)$ avant d'effectuer l'algorithme selon les paramètres données en entrée. Selon la question, il écrit dans un fichier les énergies normalisées tout au long de l'algorithme, ou bien uniquement l'énergie normalisée ainsi que le chevauchement entre le modèle original et notre réponse finale. 
@@ -36,9 +38,17 @@
 	\section{Analyse de la valeur de $\beta$}
 		oui des plot c'est cool (q2-3)
 		puis replot de la q1 avec des beta hinted
-	\section{Qu'apporte le simulated annealing}
-		encore des plot oui oui des plot
+	\section{Qu'apporte le recuit simulé ?}
+		La méthode du recuit simulé ()
 		
 	\section{Conclusion}
-		Je remercie mon manager sans qui rien n'aurait été possible ah non c'est pas les remerciements
+		De toutes nos observations, il ressort que l'algorithme de Metropolis-Hastings permet d'atteindre un taux de classification plutôt élevé, et que ce taux est encore plus élevé en utilisant la méthode du recuit simulé.
+		
+	\section{Pistes d'amélioration}
+		Il pourrait être intéressant de changer la manière qu'a la température de diminuer avec le recuit simulé (plutôt que d'augmenter linéairement son inverse).
+		
+		Par ailleurs, dans la chaîne de Markov étudiée, chaque état a $N$ voisins. Ce nombre de voisins pourrait être augmenté à $2^N-1$ (i.e. travailler sur un graphe complet). Il serait par exemple possible de proposer la modification de $K$ bits à chaque étape, $K$ étant une variable aléatoire. De plus il serait possible de conserver une complexité moyenne en $O(M*(N+T))$ en choisissant par exemple une loi géométrique pour $K$.
+		Cela permettrait peut-être d'éviter certains minima locaux.
+		
+		
 \end{document}
