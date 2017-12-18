@@ -34,6 +34,10 @@ a_min = 0.5 # min for alpha,beta
 a_max = 5 # max for alpha,beta
 
 
+pace_min = 10 # min for pace
+pace_max = 1000 # max for pace
+mb_min = 1 # min for beta at time T
+mb_max = 10 # max for beta at time T
 
 
 
@@ -333,13 +337,126 @@ def ex2_3_plot(res=0.5,pace="",delta=""):
 	dest_file = res_path+'ex3_'+seed+'.png'
 	fig.savefig(dest_file)
 	print('Overlap heatmap saved in '+dest_file)
+
+
+def ex_sim_create(alpha,beta,pace,delta):
+	"""generates K random walks with parameters alpha,beta \n
+	The final normalized energy and final overlap are stored"""
 	
+	filename = seed+"/ex_sim_a"+str(alpha)+"_p"+str(pace)+"_d"+str(delta)+".tmp"
+	
+	# generate the K random walks
+	for _ in range(K):
+		avancement(_,K)
+		call(filename,alpha,beta,'end',pace,delta)
+	 
+		
+def ex_sim_get(alpha,beta,pace,delta):
+	"""returns the average energy and average overlap"""  
+	
+	filename = seed+"/ex_sim_a"+str(alpha)+"_p"+str(pace)+"_d"+str(delta)+".tmp"
+	
+	# get the avg_energy and avg_overlap
+	avg_energy = 0
+	avg_overlap = 0
+	
+	file = open(filename,'r')
+	for _ in range(K):
+		data = file.readline().split()
+		e_T,q_T = float(data[0]),float(data[1])
+		avg_energy += e_T/K
+		avg_overlap += q_T/K
+	
+	return avg_energy, avg_overlap
+	
+def ex_sim_plot(res_p=20,res_mb=0.2,alpha=1):
+	
+	# parameters
+	pace_range = np.arange(pace_min,pace_max+res_p,res_p)
+	l = len(pace_range)
+	mb_range = np.arange(mb_min, mb_max+res_mb,res_mb)
+	
+	heatmap_energy = [[0 for _ in range(l)] for _ in range(l)]
+	heatmap_overlap = [[0 for _ in range(l)] for _ in range(l)]
+	threads = []
+	# create the data
+	for i in range(l):
+		for j in range(l): #j is beta*alpha
+			threads+=[thr.Thread(target=ex_sim_create, args=(alpha, 0, str(pace_range[i]), str(mb_range[j]*pace_range[i]/T)))]
+			threads[-1].start()
+	i=0
+	for t in threads:
+		plot_avancement(i, l*l)
+		i+=1
+		t.join()
+	
+	# get the data
+	x = []
+	ye = []
+	yo = []
+	for i in range(l):
+		x+=[pace_range[i]]
+		ye+=[0]
+		yo+=[0]
+		topi = []
+		for j in range(l):
+			avg_energy,avg_overlap = ex_sim_get(alpha, 0, str(pace_range[i]), str(mb_range[j]*pace_range[i]/T))
+			heatmap_energy[l-1-j][i] = avg_energy
+			heatmap_overlap[l-1-j][i] = avg_overlap
+			if heatmap_energy[l-1-j][i] <= heatmap_energy[l-1-ye[i]][i]:
+				ye[i] = j
+			if heatmap_overlap[l-1-j][i] >= heatmap_overlap[l-1-yo[i]][i]:
+				yo[i] = j
+		ye[i] = mb_range[ye[i]]
+		yo[i] = mb_range[yo[i]]
+	
+	"""# bonus
+	fig = plt.figure()
+	plt.plot(x,ye)
+	dest_file = res_path+'exbonus_sim_1_'+seed+'png'
+	fig.savefig(dest_file)
+	fig = plt.figure()
+	plt.plot(x,yo)
+	dest_file = res_path+'exbonus_sim_2_'+seed+'png'
+	fig.savefig(dest_file)
+	print('\nBonus saved')
+	"""
+	
+	# save the heatmaps
+	fig = plt.figure()
+	hm_energy = sns.heatmap(heatmap_energy, cmap="YlGnBu", vmin=0, vmax=0.5)
+	hm_energy.set_title('Energy map depending on pace,beta at time T')
+	hm_energy.set_xlabel('pace')
+	hm_energy.set_ylabel('beta at time T')
+	hm_energy.set_xticks(range(l,0,int(-l/10))[::-1])
+	hm_energy.set_yticks(range(l,0,int(-l/10))[::-1])
+	hm_energy.set_xticklabels(pace_range[::int(-l/10)][::-1])
+	hm_energy.set_yticklabels(mb_range[::int(-l/10)][::-1])
+	
+	dest_file = res_path+'ex_sim_1_a'+str(alpha)+'-'+seed+'.png'
+	fig.savefig(dest_file)
+	print('\nEnergy heatmap saved in '+dest_file)
+	
+	fig = plt.figure()
+	hm_overlap = sns.heatmap(heatmap_overlap, cmap="YlOrRd", vmin=-1, vmax=1)
+	hm_overlap.set_title('Overlap map depending on pace,beta at time T')
+	hm_overlap.set_xlabel('pace')
+	hm_overlap.set_ylabel('beta at time T')
+	hm_overlap.set_xticks(range(l,0,int(-l/10))[::-1])
+	hm_overlap.set_yticks(range(l,0,int(-l/10))[::-1])
+	hm_overlap.set_xticklabels(pace_range[::int(-l/10)][::-1])
+	hm_overlap.set_yticklabels(mb_range[::int(-l/10)][::-1])
+	
+	dest_file = res_path+'ex_sim_2_a'+str(alpha)+'-'+seed+'.png'
+	fig.savefig(dest_file)
+	print('Overlap heatmap saved in '+dest_file)
+
 def ex1(pace="",delta="",new_seed=0,a_range=[.5,2,5]):
 	if new_seed == 0:
 		set_seed()
 	else:
 		set_seed(new_seed)
-	
+		
 	ex1_plot(pace,delta,a_range)
 	
 def ex2_3(res=0.5,pace="",delta="",new_seed=0):
@@ -349,9 +466,17 @@ def ex2_3(res=0.5,pace="",delta="",new_seed=0):
 		set_seed(new_seed)
 	
 	ex2_3_plot(res,pace,delta)
+	
+def ex_sim(res_p=20,res_mb=0.2,alpha=1,new_seed=0):
+	if new_seed == 0:
+		set_seed()
+	else:
+		set_seed(new_seed)
+	
+	ex_sim_plot(res_p,res_mb,alpha)
 
 if __name__ == '__main__':
 	ex1("","",0,[.5*1.35**x for x in range(0,3)])
 	ex1("","",0,[.5*1.35**x for x in range(3,6)])
 	ex1("","",0,[.5*1.35**x for x in range(6,9)])
-	ex2_3(res=0.1)
+	# ex_sim(20,0.2,1)
