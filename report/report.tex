@@ -9,6 +9,7 @@
 \usepackage{multicol}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{graphicx}
 
 \doublespacing
 \date{}
@@ -32,17 +33,19 @@
 	\section{Implémentation}
 		Le programme en C++ génère $\mathbf{w}^*$ et les $(\mathbf{x}_\mu)$ avant d'effectuer l'algorithme selon les paramètres données en entrée. Selon la question, il écrit dans un fichier les énergies normalisées tout au long de l'algorithme, ou bien uniquement l'énergie normalisée ainsi que le chevauchement entre le modèle original et notre réponse finale.
 		
-		Comme au plus un bit est changé à chaque itération, il est possible de modifier le label de chaque $\mathbf{x}$ en temps $O(1)$. Cela nous permet d'effectuer une itération en $O(M)$ pour une complexité totale en $O(MT + N)$ en comptant l'initialisation.
+		Comme au plus un bit est changé à chaque itération, il est possible de modifier le label de chaque $\mathbf{x}$ en temps $O(1)$. Cela nous permet d'effectuer une itération en $O(M)$ pour une complexité totale en $O(M(T + N))$ en comptant l'initialisation.
 		
 	\section{Résultats}
-		analyse de la complexité de l'algo
-		
-		oui des plot (q1)
+		Nos résultats sont obtenus pour $N=100$, ce qui dans notre implémentation est instantané pour des paramètres adéquats de $\alpha$ et $T$.
+		\includegraphics[width=\columnwidth]{../tobekept/ex1_1755923751722050074-r.png}
+		On peut remarquer que pour ces 3 tests avec des valeurs $\alpha$ différentes, le $\beta$ optimal diffère, allant du plus grand pour $\alpha = 0.5$, au plus petit pour $\alpha = 5$.
+		Cette valeur nous permet aussi d'obtenir une erreur d'au plus 10\% dans les 3 cas.
 	\section{Analyse de la valeur de $\beta$}
 		oui des plot c'est cool (q2-3)
 		puis replot de la q1 avec des beta hinted
 	\section{Qu'apporte le simulated annealing}
 		encore des plot oui oui des plot
+		
 		
 	\section{Conclusion}
 		Je remercie mon manager sans qui rien n'aurait été possible ah non c'est pas les remerciements
