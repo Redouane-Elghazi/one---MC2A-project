@@ -180,7 +180,7 @@ def ex1_plot(pace="",delta="",a_range=[.5,1,5]):
 	for i in range(l):
 		alpha = a_range[i]
 		for j in range(l):
-			beta = 1.5*b_range[j]/.5
+			beta = 1.5*b_range[j]/alpha
 			delta = beta*pace/T
 			threads+=[mp.Process(target=ex1_create, args=(alpha,beta,pace,delta))]
 			threads[-1].start()
@@ -200,7 +200,7 @@ def ex1_plot(pace="",delta="",a_range=[.5,1,5]):
 	for i in range(l):
 		alpha = a_range[i]
 		for j in range(l):
-			beta = 1.5*b_range[j]/.5
+			beta = 1.5*b_range[j]/alpha
 			delta = beta*pace/T
 			Y = ex1_get(alpha,beta,pace,delta)
 			axes[i].plot(X,Y,label='beta='+str(beta)[:4],color=c[j][0])
