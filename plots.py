@@ -16,14 +16,14 @@ matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
 import seaborn as sns
-import threading as thr
+import multiprocessing as mp
 sns.set()
 
 
 
 ## Parameters ##
 
-K = 100 # number of tests
+K = 10 # number of tests
 N = 100
 T = 5000
 
@@ -142,7 +142,7 @@ def ex1_get(alpha,beta,pace,delta):
 
 	return avg_energy
 	
-def ex1_plot(pace="",delta=""):
+def ex1_plot(pace="",delta="",a_range=[.5,2,5]):
 	"""plots a set of graphs \n
 	on the first column, alpha is fixed \n
 	on the second column, beta is ficex \n
@@ -153,8 +153,8 @@ def ex1_plot(pace="",delta=""):
 	delta = str(delta)
 	
 	# parameters
-	a_range = [0.5,2,5] # different values of alpha,beta
-	a_range = [x/5 for x in range(1,4)]
+	#a_range = [0.5,2,5] # different values of alpha,beta
+	#a_range = [x/5 for x in range(1,4)]
 	b_range = sorted([1.5/a for a in a_range]) # different values of alpha,beta
 	l = len(a_range)
 	c = [ ['#FFA13D', '#7DD85F', '#8EBFFF'],
@@ -170,18 +170,25 @@ def ex1_plot(pace="",delta=""):
 	
 	threads=[]
 	# create the data
+	step = 0
 	for i in range(l):
 		alpha = a_range[i]
 		for j in range(l):
 			beta = b_range[j]
-			threads+=[thr.Thread(target=ex1_create, args=(alpha,beta,pace,delta))]
+			threads+=[mp.Process(target=ex1_create, args=(alpha,beta,pace,delta))]
 			threads[-1].start()
-	i = 0
-	for t in threads:
-		plot_avancement(i,l*l)
-		i+=1
-		t.join()
+			if(len(threads)>=8):
+				for t in threads:
+					plot_avancement(step, l*l)
+					step+=1
+					t.join()
+				threads = []
 	
+	for t in threads:
+		plot_avancement(step, l*l)
+		step+=1
+		t.join()
+		
 	# get the data
 	for i in range(l):
 		alpha = a_range[i]
@@ -250,16 +257,23 @@ def ex2_3_plot(res=0.5,pace="",delta=""):
 	heatmap_overlap = [[0 for _ in range(l)] for _ in range(l)]
 	threads = []
 	# create the data
+	step=0
 	for i in range(l):
 		for j in range(l): #j is beta*alpha
-			threads+=[thr.Thread(target=ex2_3_create, args=(a_range[i], ab_range[j]/a_range[i],pace,delta))]
+			threads+=[mp.Process(target=ex2_3_create, args=(a_range[i], ab_range[j]/a_range[i],pace,delta))]
 			threads[-1].start()
-	i=0
-	for t in threads:
-		plot_avancement(i, l*l)
-		i+=1
-		t.join()
+			if(len(threads)>=8):
+				for t in threads:
+					plot_avancement(step, l*l)
+					step+=1
+					t.join()
+				threads = []
 	
+	for t in threads:
+		plot_avancement(step, l*l)
+		step+=1
+		t.join()
+		
 	# get the data
 	x = []
 	ye = []
@@ -320,13 +334,13 @@ def ex2_3_plot(res=0.5,pace="",delta=""):
 	fig.savefig(dest_file)
 	print('Overlap heatmap saved in '+dest_file)
 	
-def ex1(pace="",delta="",new_seed=0):
+def ex1(pace="",delta="",new_seed=0,a_range=[.5,2,5]):
 	if new_seed == 0:
 		set_seed()
 	else:
 		set_seed(new_seed)
 	
-	ex1_plot(pace,delta)
+	ex1_plot(pace,delta,a_range)
 	
 def ex2_3(res=0.5,pace="",delta="",new_seed=0):
 	if new_seed == 0:
@@ -336,5 +350,8 @@ def ex2_3(res=0.5,pace="",delta="",new_seed=0):
 	
 	ex2_3_plot(res,pace,delta)
 
-ex1()
-#ex2_3(res=0.5)
+if __name__ == '__main__':
+	ex1("","",0,[.5*1.35**x for x in range(0,3)])
+	ex1("","",0,[.5*1.35**x for x in range(3,6)])
+	ex1("","",0,[.5*1.35**x for x in range(6,9)])
+	ex2_3(res=0.1)
