@@ -23,7 +23,7 @@ sns.set()
 
 ## Parameters ##
 
-K = 10 # number of tests
+K = 100 # number of tests
 N = 100
 T = 5000
 
@@ -476,10 +476,10 @@ def ex_sim(res_p=20,res_mb=0.2,alpha=1,new_seed=0):
 	ex_sim_plot(res_p,res_mb,alpha)
 
 if __name__ == '__main__':
-	ex1("","",0,[.5*1.35**x for x in range(0,3)])
-	ex1("","",0,[.5*1.35**x for x in range(3,6)])
-	ex1("","",0,[.5*1.35**x for x in range(6,9)])
-	ex2_3(res=0.1)
+	ex1("","",0,[.5*1.35**(3*x) for x in range(0,3)])
+	ex1("","",0,[.5*1.35**(3*x+1) for x in range(0,3)])
+	ex1("","",0,[.5*1.35**(3*x+2) for x in range(0,3)])
+	ex2_3(res=0.3)
 	#ex1()
 	#ex2_3(res=0.5)
 	# ex_sim(20,0.2,1)
