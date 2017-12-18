@@ -23,7 +23,7 @@ sns.set()
 
 ## Parameters ##
 
-K = 10 # number of tests
+K = 100 # number of tests
 N = 100
 T = 5000
 
@@ -380,14 +380,21 @@ def ex_sim_plot(res_p=20,res_mb=0.2,alpha=1):
 	heatmap_overlap = [[0 for _ in range(l)] for _ in range(l)]
 	threads = []
 	# create the data
+	step = 0
 	for i in range(l):
 		for j in range(l): #j is beta*alpha
-			threads+=[thr.Thread(target=ex_sim_create, args=(alpha, 0, str(pace_range[i]), str(mb_range[j]*pace_range[i]/T)))]
+			threads+=[mp.Process(target=ex_sim_create, args=(alpha, 0, str(pace_range[i]), str(mb_range[j]*pace_range[i]/T)))]
 			threads[-1].start()
-	i=0
+			if(len(threads)>=8):
+				for t in threads:
+					plot_avancement(step, l*l)
+					step+=1
+					t.join()
+				threads = []
+			
 	for t in threads:
-		plot_avancement(i, l*l)
-		i+=1
+		plot_avancement(step, l*l)
+		step+=1
 		t.join()
 	
 	# get the data
@@ -476,10 +483,16 @@ def ex_sim(res_p=20,res_mb=0.2,alpha=1,new_seed=0):
 	ex_sim_plot(res_p,res_mb,alpha)
 
 if __name__ == '__main__':
-	ex1("","",0,[.5*1.35**x for x in range(0,3)])
+	"""ex1("","",0,[.5*1.35**x for x in range(0,3)])
 	ex1("","",0,[.5*1.35**x for x in range(3,6)])
 	ex1("","",0,[.5*1.35**x for x in range(6,9)])
 	ex2_3(res=0.1)
+	"""
 	#ex1()
 	#ex2_3(res=0.5)
 	# ex_sim(20,0.2,1)
+	"""
+	a_range = [5,4.25]
+	for a in a_range:
+		ex_sim(20,0.18,a)
+	"""
