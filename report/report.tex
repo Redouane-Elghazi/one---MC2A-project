@@ -40,16 +40,16 @@
 	\section{Résultats}
 		Nos résultats sont obtenus pour $N=100$. Dans ces conditions, chaque exécution de l'algorithme est instantané pour des paramètres adéquats de $\alpha$ et $T$.
 		\begin{figure}
-			\caption{\label{ex1}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
 			\includegraphics[width=\columnwidth]{../tobekept/ex1_1755923751722050074-r.png}
+			\caption{\label{ex1}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
 		\end{figure}
 		On peut remarquer que pour ces 3 tests avec des valeurs $\alpha$ différentes, le $\beta$ optimal diffère, allant du plus grand pour $\alpha = 0.5$, au plus petit pour $\alpha = 5$.
 		Cette valeur optimale nous permet aussi d'obtenir une erreur d'au plus 10\% dans les 3 cas.
 		
 		\begin{figure}
-			\caption{\label{ex2}Représentation de l'énergie et de chevauchement en fonction de $\alpha$ et de $\beta$}
 			\includegraphics[width=\columnwidth]{../tobekept/ex2_2323132067031870085-r.png}
 			\includegraphics[width=\columnwidth]{../tobekept/ex3_2323132067031870085-r.png}
+			\caption{\label{ex2}Représentation de l'énergie et de chevauchement en fonction de $\alpha$ et de $\beta$}
 		\end{figure}
 		Au regard de ces 2 heat maps, pour de grandes valeurs de $\alpha$, l'énergie est très faible avec de très bons chevauchements. Cependant, on ne voit pas la même tendance pour de faibles $\alpha$. Malgré une énergie faible, le modèle reste assez éloigné de l'original. Comme le nombre de points est plus faible, cela fait moins de contraintes à respecter et donc il semble cohérent que plusieurs modèles parviennent à obtenir une énergie quasi-nulle. 
 	\section{Analyse de la valeur de $\beta$}
@@ -72,7 +72,7 @@
 		
 		Par ailleurs, dans la chaîne de Markov étudiée, chaque état a $N$ voisins. Ce nombre de voisins pourrait être augmenté à $2^N-1$ (i.e. travailler sur un graphe complet). Il serait par exemple possible de proposer la modification de $K$ bits à chaque étape, $K$ étant une variable aléatoire. De plus il serait possible de conserver une complexité moyenne en $O(M\cdot(N+T))$ en choisissant par exemple une loi géométrique pour $K$.
 		Cela permettrait peut-être d'éviter certains minima locaux.
-		
+\newpage		
 \appendix
 \section{Annexe}
 \begin{figure}[!h]
