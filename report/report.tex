@@ -20,7 +20,7 @@
 \begin{document}
 	\maketitle
 	\section{Introduction}
-		Le but de ce projet était d'implémenter une méthode de Monte-Carlo par chaînes de Markov appelée algorithme de Metropolis-Hastings. Cet algorithme a pour entrée un ensemble de points de $\mathbb{R}^N$ ainsi qu'un label associé à chacun de ces points.
+		Le but de ce projet est d'implémenter une méthode de Monte-Carlo par chaînes de Markov appelée algorithme de Metropolis-Hastings. Cet algorithme a pour entrée un ensemble de points de $\mathbb{R}^N$ ainsi qu'un label associé à chacun de ces points.
 		
 		Le but de l'algorithme est de trouver une fonction $\emph{label}$ minimisant le nombre de mauvais labels. Dans le cadre de ce projet, la fonction recherchée est de la forme:
 		$$\emph{label}(\mathbf{x}) = \text{sign}(\mathbf{w}\cdot \mathbf{x})$$
@@ -29,12 +29,12 @@
 		
 		Pour minimiser l'énergie, à chaque étape, un bit de $\mathbf{w}$ est proposé à la modification. Cette modification est acceptée avec une probabilité dépendant du nombre de points mal classifiés avant et après modification. La distribution de $\mathbf{w}$ après un grand nombre d'étapes suit la distribution de Boltzmann faisant intervenir l'énergie de chaque $\mathbf{w}$.
 	\section{Langage}
-		Nous avons choisi d'utiliser deux langages pour ce projet. L'algorithme est implémenté en \verb!C++!. Nous avons choisi ce langage pour ses performance et le contrôle que l'on peut avoir sur les opérations élémentaires.
+		Nous avons choisi d'utiliser deux langages pour ce projet. L'algorithme est implémenté en \verb!C++!. Nous avons choisi ce langage pour ses performance et le contrôle que l'on peut avoir sur les opérations élémentaires que l'on effectue.
 		
 		Nous avons ensuite testé les performances de notre exécutable à l'aide d'un script \verb!Python!. Nous avons choisi le \verb!Python! car c'est un langage de script haut niveau, qui permet aisément de générer des graphes.
 		
 	\section{Implémentation}
-		Le programme en \verb!C++! génère un $\mathbf{w}^*$ permettant de calculer les labels réels, et les $(\mathbf{x}_\mu)$ avant d'appliquer l'algorithme selon les paramètres données en entrée. Selon les besoins, il écrit dans un fichier les énergies normalisées tout au long de l'algorithme, ou bien uniquement l'énergie normalisée ainsi que le chevauchement entre le modèle original et notre réponse finale.
+		Le programme en \verb!C++! génère un $\mathbf{w}^*$ permettant de calculer les labels réels, et les $(\mathbf{x}_\mu)$ avant d'appliquer l'algorithme selon les paramètres données en entrée. Selon les besoins, il écrit dans un fichier l'énergie tout au long de l'algorithme, ou uniquement l'énergie finale et le chevauchement entre le modèle original et notre réponse finale.
 		
 		Comme seulement un bit est changé à chaque itération, il est possible d'actualiser le label d'un $\mathbf{x}$ en temps $O(1)$. Cela nous permet d'effectuer une itération en $O(M)$ pour une complexité totale en $O(M\cdot(T + N))$ en comptant l'initialisation.
 		
@@ -45,7 +45,7 @@
 			\caption{\label{ex1}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
 		\end{figure}
 		On peut remarquer sur la \textsc{Figure} \ref{ex1} que pour ces 3 tests avec des valeurs $\alpha$ différentes, le $\beta$ optimal diffère, allant du plus grand pour $\alpha = 0.5$, au plus petit pour $\alpha = 5$.
-		Cette valeur optimale nous permet aussi d'obtenir une erreur d'au plus 10\% dans les 3 cas.
+		Cette valeur optimale nous permet d'obtenir une erreur d'au plus 10\% dans les 3 cas.
 		
 		\begin{figure}
 			\includegraphics[width=\columnwidth]{../tobekept/ex2_2323132067031870085-r.png}
@@ -58,13 +58,13 @@
 		À la lumière de ces résultats, nous avons réalisé d'autres graphes de l'évolution de l'énergie en fonction du temps avec des $\beta$ respectant ce modèle. Ils sont en annexe.
 	\begin{figure}
 		\includegraphics[width=\columnwidth]{../tobekept/exbonus1_2323132067031870085png-r.png}
-		\caption{\label{ex3}$\beta$ optimal pour une valeur de $\alpha$ par rapport à $x\mapsto \frac{1.5}{x}$}
+		\caption{\label{ex3}$\beta$ optimal en fonction de $\alpha$ comparé à $\alpha\mapsto \frac{1.5}{\alpha}$}
 	\end{figure}
 	\section{Le recuit simulé}
 		La méthode du recuit simulé consiste à augmenter progressivement la valeur de $\beta$ au cours de l'algorithme plutôt que de la laisser constante. Dans nos tests, nous avons considéré un $\beta$ initialisé à 0 et un incrément linéaire jusqu'au $\beta$ final.
-		On se rend compte en observant les graphes en Annexe que le $\beta$ optimal dépend de $\alpha$.  Nos choix de $\beta$ suivant le modèle proposé précédemment nous donnent de meilleurs résultats qu'avec un $\beta$ constant. Cependant, notre choix pour $\alpha = 1$ semble pouvoir être amélioré.
+		On se rend compte en observant les graphes en annexe que le $\beta$ optimal dépend de $\alpha$.  Nos choix de $\beta$ suivant le modèle proposé précédemment nous donnent de meilleurs résultats qu'avec un $\beta$ constant. Cependant, notre choix pour $\alpha = 1$ semble pouvoir être amélioré.
 		
-		\begin{figure}
+		\begin{figure}[t]
 		\includegraphics[width=\columnwidth]{../tobekept/ex1_sim_1683536997971113732-r.png}
 		\caption{\label{ex1sim}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$ avec le recuit simulé}
 		\end{figure}
@@ -78,7 +78,7 @@
 		Par ailleurs, dans la chaîne de Markov étudiée, chaque état a $N$ voisins. Ce nombre de voisins pourrait être augmenté à $2^N-1$ (i.e. travailler sur un graphe complet). Il serait par exemple possible de proposer la modification de $K$ bits à chaque étape, $K$ étant une variable aléatoire. De plus il serait possible de conserver une complexité moyenne en $O(M\cdot(N+T))$ en choisissant par exemple une loi géométrique pour $K$.
 		Cela permettrait peut-être d'éviter certains minima locaux.
 		
-\newpage
+\clearpage
 \appendix
 \section{Annexe 1}
 \begin{figure}[!h]
