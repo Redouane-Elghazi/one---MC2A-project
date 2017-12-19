@@ -305,11 +305,11 @@ def ex2_3_plot(res=0.5,pace="",delta=""):
 	# bonus
 	fig = plt.figure()
 	plt.plot(x,ye)
-	dest_file = res_path+'exbonus1_'+seed+'png'
+	dest_file = res_path+'exbonus1_'+seed+'.png'
 	fig.savefig(dest_file)
 	fig = plt.figure()
 	plt.plot(x,yo)
-	dest_file = res_path+'exbonus2_'+seed+'png'
+	dest_file = res_path+'exbonus2_'+seed+'.png'
 	fig.savefig(dest_file)
 	print('\nBonus saved')
 	
