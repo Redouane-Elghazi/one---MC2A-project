@@ -39,26 +39,26 @@
 		
 	\section{Résultats}
 		Nos résultats sont obtenus pour $N=100$. Dans ces conditions, chaque exécution de l'algorithme est instantané pour des paramètres adéquats de $\alpha$ et $T$.
-		\begin{figure}
-			\caption{\label{ex1}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
+		\begin{figure}\label{ex1}
 			\includegraphics[width=\columnwidth]{../tobekept/ex1_1755923751722050074-r.png}
+			\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
 		\end{figure}
-		On peut remarquer que pour ces 3 tests avec des valeurs $\alpha$ différentes, le $\beta$ optimal diffère, allant du plus grand pour $\alpha = 0.5$, au plus petit pour $\alpha = 5$.
+		On peut remarquer sur la \textsc{Figure} \ref{ex1} que pour ces 3 tests avec des valeurs $\alpha$ différentes, le $\beta$ optimal diffère, allant du plus grand pour $\alpha = 0.5$, au plus petit pour $\alpha = 5$.
 		Cette valeur optimale nous permet aussi d'obtenir une erreur d'au plus 10\% dans les 3 cas.
 		
-		\begin{figure}
-			\caption{\label{ex2}Représentation de l'énergie et de chevauchement en fonction de $\alpha$ et de $\beta$}
+		\begin{figure}\label{ex2}
 			\includegraphics[width=\columnwidth]{../tobekept/ex2_2323132067031870085-r.png}
 			\includegraphics[width=\columnwidth]{../tobekept/ex3_2323132067031870085-r.png}
+			\caption{Représentation de l'énergie et de chevauchement en fonction de $\alpha$ et de $\beta$}
 		\end{figure}
-		Au regard de ces 2 heat maps, pour de grandes valeurs de $\alpha$, l'énergie est très faible avec de très bons chevauchements. Cependant, on ne voit pas la même tendance pour de faibles $\alpha$. Malgré une énergie faible, le modèle reste assez éloigné de l'original. Comme le nombre de points est plus faible, cela fait moins de contraintes à respecter et donc il semble cohérent que plusieurs modèles parviennent à obtenir une énergie quasi-nulle. 
+		Nous avons réalisé des heat maps décrivant l'énergie et le chevauchement finaux en fonction de $\alpha$ et de $\beta$ (\textsc{Figure} \ref{ex2}). Au regard de ces 2 heat maps, pour de grandes valeurs de $\alpha$, l'énergie est très faible avec de très bons chevauchements. Cependant, on ne voit pas la même tendance pour de faibles $\alpha$ : malgré une énergie faible, le modèle reste assez éloigné de l'original. Comme le nombre de points est plus faible, le modèle est moins bien caractérisé et il semble cohérent que plusieurs modèles parviennent à obtenir une énergie quasi-nulle. 
 	\section{Analyse de la valeur de $\beta$}
 		oui des plot c'est cool (q2-3)
 		puis replot de la q1 avec des beta hinted
 		- 
-	\section{Qu'apporte le recuit simulé ?}
-		La méthode du recuit simulé consiste à augmenter progressivement la valeur de $\beta$ au cours de l'algorithme plutôt que de le laisser constant. Dans nos tests, nous avons considéré un $\beta$ initialisé à 0 et définit l'incrément à partir du délai entre chaque augmentation et le $\beta$ final.
-		On se rend compte en observant les graphes en Annexe qu'un $\beta$ constant ne donne pas de bons résultats.  Nos choix de $\beta$ en fonction de $\alpha$ nous donnent de meilleurs résultats qu'avec un $\beta$ constant. Cependant, notre choix pour $\alpha = 1$ peut être amélioré.
+	\section{Le recuit simulé}
+		La méthode du recuit simulé consiste à augmenter progressivement la valeur de $\beta$ au cours de l'algorithme plutôt que de la laisser constante. Dans nos tests, nous avons considéré un $\beta$ initialisé à 0 et un incrément linéaire jusqu'au $\beta$ final.
+		On se rend compte en observant les graphes en Annexe que le $\beta$ optimal dépend de $\alpha$.  Nos choix de $\beta$ suivant le modèle proposé précédemment nous donnent de meilleurs résultats qu'avec un $\beta$ constant. Cependant, notre choix pour $\alpha = 1$ semble pouvoir être amélioré.
 		
 		\begin{figure}
 		\includegraphics[width=\columnwidth]{../tobekept/ex1_sim_1683536997971113732-r.png}
@@ -73,12 +73,15 @@
 		Par ailleurs, dans la chaîne de Markov étudiée, chaque état a $N$ voisins. Ce nombre de voisins pourrait être augmenté à $2^N-1$ (i.e. travailler sur un graphe complet). Il serait par exemple possible de proposer la modification de $K$ bits à chaque étape, $K$ étant une variable aléatoire. De plus il serait possible de conserver une complexité moyenne en $O(M\cdot(N+T))$ en choisissant par exemple une loi géométrique pour $K$.
 		Cela permettrait peut-être d'éviter certains minima locaux.
 		
+\newpage
 \appendix
 \section{Annexe}
-\begin{figure}[!h]
+\begin{figure}[h]
 	\includegraphics[width=\columnwidth]{../tobekept/skype_1.jpg}
+	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$, avec des $\beta$ trop faibles}
 \end{figure}
 \begin{figure}
 	\includegraphics[width=\columnwidth]{../tobekept/skype_2.jpg}
+	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$, avec des $\beta$ trop élevés}
 \end{figure}
 \end{document}
