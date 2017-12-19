@@ -54,9 +54,7 @@
 		\end{figure}
 		Nous avons réalisé des heat maps décrivant l'énergie et le chevauchement finaux en fonction de $\alpha$ et de $\beta$ (\textsc{Figure} \ref{ex2}). Au regard de ces 2 heat maps, pour de grandes valeurs de $\alpha$, l'énergie est très faible avec de très bons chevauchements. Cependant, on ne voit pas la même tendance pour de faibles $\alpha$ : malgré une énergie faible, le modèle reste assez éloigné de l'original. Comme le nombre de points est plus faible, le modèle est moins bien caractérisé et il semble cohérent que plusieurs modèles parviennent à obtenir une énergie quasi-nulle. 
 	\section{Analyse de la valeur de $\beta$}
-		oui des plot c'est cool (q2-3)
-		puis replot de la q1 avec des beta hinted
-		- 
+		À la lumière de ces résultats, nous avons réalisé d'autres graphes de l'évolution de l'énergie en fonction du temps avec des $\beta$ respectant ce modèle. Ils sont en annexe.
 	\section{Le recuit simulé}
 		La méthode du recuit simulé consiste à augmenter progressivement la valeur de $\beta$ au cours de l'algorithme plutôt que de la laisser constante. Dans nos tests, nous avons considéré un $\beta$ initialisé à 0 et un incrément linéaire jusqu'au $\beta$ final.
 		On se rend compte en observant les graphes en Annexe que le $\beta$ optimal dépend de $\alpha$.  Nos choix de $\beta$ suivant le modèle proposé précédemment nous donnent de meilleurs résultats qu'avec un $\beta$ constant. Cependant, notre choix pour $\alpha = 1$ semble pouvoir être amélioré.
@@ -76,12 +74,25 @@
 		
 \newpage
 \appendix
-\section{Annexe}
-\begin{figure}[h]
+\section{Annexe 1}
+\begin{figure}[!h]
+	\includegraphics[width=\columnwidth]{../tobekept/ex1_4826864907612068410-r.png}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[width=\columnwidth]{../tobekept/ex1_5356565168118681029-r.png}
+\end{figure}
+\begin{figure}[!h]
+	\includegraphics[width=\columnwidth]{../tobekept/ex1_8526750515376798568-r.png}
+\end{figure}
+
+\clearpage
+
+\section{Annexe 2}
+\begin{figure}[!h]
 	\includegraphics[width=\columnwidth]{../tobekept/skype_1.jpg}
 	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$, avec des $\beta$ trop faibles}
 \end{figure}
-\begin{figure}
+\begin{figure}[!h]
 	\includegraphics[width=\columnwidth]{../tobekept/skype_2.jpg}
 	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$, avec des $\beta$ trop élevés}
 \end{figure}
