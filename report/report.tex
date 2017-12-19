@@ -10,6 +10,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{caption}
 
 \doublespacing
 \date{}
@@ -39,17 +40,17 @@
 		
 	\section{Résultats}
 		Nos résultats sont obtenus pour $N=100$. Dans ces conditions, chaque exécution de l'algorithme est instantané pour des paramètres adéquats de $\alpha$ et $T$.
-		\begin{figure}\label{ex1}
+		\begin{figure}
 			\includegraphics[width=\columnwidth]{../tobekept/ex1_1755923751722050074-r.png}
-			\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
+			\caption{\label{ex1}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$}
 		\end{figure}
 		On peut remarquer sur la \textsc{Figure} \ref{ex1} que pour ces 3 tests avec des valeurs $\alpha$ différentes, le $\beta$ optimal diffère, allant du plus grand pour $\alpha = 0.5$, au plus petit pour $\alpha = 5$.
 		Cette valeur optimale nous permet aussi d'obtenir une erreur d'au plus 10\% dans les 3 cas.
 		
-		\begin{figure}\label{ex2}
+		\begin{figure}
 			\includegraphics[width=\columnwidth]{../tobekept/ex2_2323132067031870085-r.png}
 			\includegraphics[width=\columnwidth]{../tobekept/ex3_2323132067031870085-r.png}
-			\caption{Représentation de l'énergie et de chevauchement en fonction de $\alpha$ et de $\beta$}
+			\caption{\label{ex2}Représentation de l'énergie et de chevauchement en fonction de $\alpha$ et de $\beta$}
 		\end{figure}
 		Nous avons réalisé des heat maps décrivant l'énergie et le chevauchement finaux en fonction de $\alpha$ et de $\beta$ (\textsc{Figure} \ref{ex2}). Au regard de ces 2 heat maps, pour de grandes valeurs de $\alpha$, l'énergie est très faible avec de très bons chevauchements. Cependant, on ne voit pas la même tendance pour de faibles $\alpha$ : malgré une énergie faible, le modèle reste assez éloigné de l'original. Comme le nombre de points est plus faible, le modèle est moins bien caractérisé et il semble cohérent que plusieurs modèles parviennent à obtenir une énergie quasi-nulle. 
 	\section{Analyse de la valeur de $\beta$}
