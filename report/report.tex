@@ -53,10 +53,14 @@
 	\section{Analyse de la valeur de $\beta$}
 		oui des plot c'est cool (q2-3)
 		puis replot de la q1 avec des beta hinted
+		- 
 	\section{Qu'apporte le recuit simulé ?}
-		La méthode du recuit simulé ()
-		-ça converge bien
-		-ça dépend d'alpha (cf annexe). On a choisi des beta en fonction d'alpha. ça donne des résultats pas trop mal, même si notre choix pour alpha = 1 doit pouvoir être améliorer.
+		La méthode du recuit simulé consiste à augmenter progressivement la valeur de $\beta$ au cours de l'algorithme plutôt que de le laisser constant. Dans nos tests, nous avons considéré un $\beta$ initialisé à 0 et définit l'incrément à partir du délai entre chaque augmentation et le $\beta$ final.
+		On se rend compte en observant les graphes en Annexe qu'un $\beta$ constant ne donne pas de bons résultats.  Nos choix de $\beta$ en fonction de $\alpha$ nous donnent de meilleurs résultats qu'avec un $\beta$ constant. Cependant, notre choix pour $\alpha = 1$ peut être amélioré.
+		
+		\begin{figure}
+		\includegraphics[width=\columnwidth]{../tobekept/ex1_sim_1683536997971113732-r.png}
+		\end{figure}
 		
 	\section{Conclusion}
 		De toutes nos observations, il ressort que l'algorithme de Metropolis-Hastings permet d'atteindre un taux de classification plutôt élevé, et que ce taux est encore plus élevé en utilisant la méthode du recuit simulé.
@@ -67,5 +71,12 @@
 		Par ailleurs, dans la chaîne de Markov étudiée, chaque état a $N$ voisins. Ce nombre de voisins pourrait être augmenté à $2^N-1$ (i.e. travailler sur un graphe complet). Il serait par exemple possible de proposer la modification de $K$ bits à chaque étape, $K$ étant une variable aléatoire. De plus il serait possible de conserver une complexité moyenne en $O(M\cdot(N+T))$ en choisissant par exemple une loi géométrique pour $K$.
 		Cela permettrait peut-être d'éviter certains minima locaux.
 		
-		
+\appendix
+\section{Annexe}
+\begin{figure}[!h]
+	\includegraphics[width=\columnwidth]{../tobekept/skype_1.jpg}
+\end{figure}
+\begin{figure}
+	\includegraphics[width=\columnwidth]{../tobekept/skype_2.jpg}
+\end{figure}
 \end{document}
