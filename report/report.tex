@@ -54,6 +54,7 @@
 		\end{figure}
 		Nous avons réalisé des heat maps décrivant l'énergie et le chevauchement finaux en fonction de $\alpha$ et de $\beta$ (\textsc{Figure} \ref{ex2}). Au regard de ces 2 heat maps, pour de grandes valeurs de $\alpha$, l'énergie est très faible avec de très bons chevauchements. Cependant, on ne voit pas la même tendance pour de faibles $\alpha$ : malgré une énergie faible, le modèle reste assez éloigné de l'original. Comme le nombre de points est plus faible, le modèle est moins bien caractérisé et il semble cohérent que plusieurs modèles parviennent à obtenir une énergie quasi-nulle. 
 	\section{Analyse de la valeur de $\beta$}
+		La \textsc{Figure} \ref{ex3} représente le meilleur $\beta$ que nous avons pu observer en fonction de $\alpha$. Nous proposons l'approximation : $$\alpha\mapsto\frac{1.5}{\alpha}$$
 		À la lumière de ces résultats, nous avons réalisé d'autres graphes de l'évolution de l'énergie en fonction du temps avec des $\beta$ respectant ce modèle. Ils sont en annexe.
 	\begin{figure}
 		\includegraphics[width=\columnwidth]{../tobekept/exbonus1_2323132067031870085png-r.png}
@@ -65,10 +66,11 @@
 		
 		\begin{figure}
 		\includegraphics[width=\columnwidth]{../tobekept/ex1_sim_1683536997971113732-r.png}
+		\caption{\label{ex1sim}Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$ avec le recuit simulé}
 		\end{figure}
 		
 	\section{Conclusion}
-		De toutes nos observations, il ressort que l'algorithme de Metropolis-Hastings permet d'atteindre un taux de classification plutôt élevé, et que ce taux est encore plus élevé en utilisant la méthode du recuit simulé.
+		De toutes nos observations, il ressort que l'algorithme de Metropolis-Hastings permet d'atteindre un taux de classifications correctes plutôt élevé, et que ce taux est encore plus élevé en utilisant la méthode du recuit simulé.
 		
 	\section{Pistes d'amélioration}
 		Il pourrait être intéressant de changer la manière qu'a la température de diminuer avec le recuit simulé (plutôt que d'augmenter linéairement son inverse).
@@ -92,10 +94,10 @@
 \section{Annexe 2}
 \begin{figure}[!h]
 	\includegraphics[width=\columnwidth]{../tobekept/skype_1.jpg}
-	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$, avec des $\beta$ trop faibles}
+	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$ avec le recuit simulé, avec des $\beta$ trop faibles}
 \end{figure}
 \begin{figure}[!h]
 	\includegraphics[width=\columnwidth]{../tobekept/skype_2.jpg}
-	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$, avec des $\beta$ trop élevés}
+	\caption{Évolution de l'énergie en fonction du temps pour divers $\alpha$ et $\beta$ avec le recuit simulé, avec des $\beta$ trop élevés}
 \end{figure}
 \end{document}
