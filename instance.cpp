@@ -37,6 +37,12 @@ instance::instance(vector<double> real_model, int sample, default_random_engine&
     }
 }
 
+instance::instance(vector<pair<vector<double>, int> > p){
+    n = p[0].first.size();
+    m = p.size();
+    points = p;
+}
+
 const vector<double>& instance::get_model(){
     return model;
 }

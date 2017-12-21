@@ -10,6 +10,7 @@ class instance{
 public:
     instance(int dim, int sample, default_random_engine& g);
     instance(vector<double> real_model, int sample, default_random_engine& g);
+    instance(vector<pair<vector<double>, int> > p);
     const vector<double>& get_model();
     const vector<pair<vector<double>, int> >& get_points();
 private:
