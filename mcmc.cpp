@@ -67,7 +67,7 @@ double MCMC::next_state(default_random_engine& g){
 }*/
 
 void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta){
-    int p,q;
+    //int p,q;
     for(int i = 0; i<t; ++i){
         /*if(i%(t/100)==0){
             error_rate(p,q);
@@ -77,17 +77,17 @@ void MCMC::advance_state(int t, default_random_engine& g, int pace, double delta
                 break;
         }*/
         next_state(g);
-        if(mode_all){
+        /*if(mode_all){
 			error_rate(p,q);
 			out << (double)p/q << endl;
-        }
+        }*/
         if((i+1)%pace == 0)
             beta += delta;
     }
-    if(mode_all){
+    /*if(mode_all){
         error_rate(p,q);
         out << (double)p/q << endl;
-    }
+    }*/
     //cerr << endl;
 }
 
@@ -102,6 +102,7 @@ void MCMC::error_rate(int& p, int& q){
     int m = points.size();
     for(int j = 0; j<m; ++j){
         label = labels[j];
+        //cout << label << endl;
         if(sgn(label) != points[j].second)
             ++p;
     }

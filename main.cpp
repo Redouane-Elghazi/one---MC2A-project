@@ -9,8 +9,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-    int n = 100, m = 500, T = 1000;
-    int pace = T/100;
+    int n = 100, m = 500, T = 10000;
+    int pace = 10;
     double beta = 1., delta = 0.;
 
 	ofstream out;
@@ -32,39 +32,40 @@ int main(int argc, char* argv[]){
 	case 5:
 		n = atoi(argv[4]);
 		mode_all = (strcmp("all",argv[3]) == 0);*/
+    case 4:
 		seed = atoi(argv[3]);
         in.open(argv[2], ios::in);
-		out.open(argv[1], ios::out | ios::app);
+		out.open(argv[1], ios::out);
 		break;
 	default:
 		cout << "./poulpe file.out seed mode_all n m=500 T=1000 beta=1. pace=10 delta=0. file.in" << endl;
 		return 1;
     }
-
+    beta = 0; delta = 3.*pace/T;
     default_random_engine g;
     g.seed(seed);
     in >> m >> n;
     vector<pair<vector<double>, int> > points(m);
-    for(int i = 0; i<m; ++i){
-        for(int j = 0; j<n; ++j){
+    for(int i = 0; i<n; ++i){
+        for(int j = 0; j<m; ++j){
             double x;
-            cin >> x;
-            points[i].first.push_back(x);
+            in >> x;
+            points[j].first.push_back(x);
         }
     }
     for(int i = 0; i<m; ++i){
         int x;
-        cin >> x;
+        in >> x;
         points[i].second = x;
     }
     int mtest;
-    cin >> mtest;
+    in >> mtest;
     vector<vector<double> > test(mtest);
-    for(int i = 0; i<mtest; ++i){
-        for(int j = 0; j<n; ++j){
+    for(int i = 0; i<n; ++i){
+        for(int j = 0; j<mtest; ++j){
             double x;
-            cin >> x;
-            test[i].push_back(x);
+            in >> x;
+            test[j].push_back(x);
         }
     }
     //instance problem(n, m, g);
@@ -89,10 +90,10 @@ int main(int argc, char* argv[]){
     cout << endl;
     solve.error_rate(p,q);
     cout << p << "/" << q << endl;
-*/
+
 	if(mode_all){
 		out << T << endl;
-	}
+	}*/
     solve.advance_state(T, g, pace, delta);
 /*
     cout << "found vector is:" << endl;
@@ -108,16 +109,15 @@ int main(int argc, char* argv[]){
 		out << (double)p/q << " " << inner_product(problem.get_model().begin(),problem.get_model().end(),solve.get_state().begin(),0.)/n << endl;
 	}
 */
-
+    out << mtest << " " << n << endl;
     for(double x:solve.get_state())
         out << x << endl;
-    out << endl;
 
     int p,q;
     solve.error_rate(p,q);
-    out << 2.*p/q << endl;
+    out << 2*p << endl;
 
-    for(int i = 0; i<m; ++i){
+    for(int i = 0; i<mtest; ++i){
         out << sgn(inner_product(test[i].begin(), test[i].end(),
                                  solve.get_state().begin(), 0.)) << endl;
     }
