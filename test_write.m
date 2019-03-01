@@ -1,15 +1,15 @@
-load randomData.mat;
+load data.mat;
 
 file = fopen("data.in","w");
 
 %Format for one row
-format = [repmat('%d ',1,N-1),'%d\n'];
+format = [repmat('%f ',1,N-1),'%f\n'];
 
 %Dimensions
 fprintf(file,"%d %d\n",[M N]);
 
 %Points
-fprintf(file,format,X);
+fprintf(file,format,X.');
 
 %Labels
 fprintf(file,"%d\n",y);
@@ -18,7 +18,7 @@ fprintf(file,"%d\n",y);
 fprintf(file,"%d\n",M_test);
 
 %Test
-fprintf(file,format,X_test);
+fprintf(file,format,X_test.');
 
 
 fclose(file);

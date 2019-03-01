@@ -8,7 +8,6 @@ int sgn(double x){
     else if(x>0)
         return 1;
     else{
-        exit(1);
         return 0;
     }
 }

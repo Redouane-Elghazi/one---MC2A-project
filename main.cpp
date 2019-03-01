@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char* argv[]){
     int n = 100, m = 500, T = 10000;
     int pace = 10;
-    double beta = 1., delta = 0.;
+    double beta = 3., delta = 0.;
 
 	ofstream out;
 	ifstream in;
@@ -46,8 +46,8 @@ int main(int argc, char* argv[]){
     g.seed(seed);
     in >> m >> n;
     vector<pair<vector<double>, int> > points(m);
-    for(int i = 0; i<n; ++i){
-        for(int j = 0; j<m; ++j){
+	for(int j = 0; j<m; ++j){
+		for(int i = 0; i<n; ++i){
             double x;
             in >> x;
             points[j].first.push_back(x);
@@ -61,9 +61,9 @@ int main(int argc, char* argv[]){
     int mtest;
     in >> mtest;
     vector<vector<double> > test(mtest);
-    for(int i = 0; i<n; ++i){
-        for(int j = 0; j<mtest; ++j){
-            double x;
+	for(int j = 0; j<mtest; ++j){
+		for(int i = 0; i<n; ++i){
+           double x;
             in >> x;
             test[j].push_back(x);
         }
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]){
 		out << (double)p/q << " " << inner_product(problem.get_model().begin(),problem.get_model().end(),solve.get_state().begin(),0.)/n << endl;
 	}
 */
-    out << mtest << " " << n << endl;
+	out << mtest << " " << n << endl;
     for(double x:solve.get_state())
         out << x << endl;
 
